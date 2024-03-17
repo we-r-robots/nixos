@@ -13,6 +13,7 @@ in
       #inputs.sops-nix.nixosModules.sops
       ../../hardware-configuration.nix
       ../../system/sshd.nix
+      ../../system/xrdp.nix
       #../../system/virt.nix # Enables virtualization and installs packages
       #../../system/steam.nix # Enables and installs Steam
     ];
@@ -27,6 +28,22 @@ in
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/xvda";
   boot.loader.grub.useOSProber = true;
+
+  # Enable Wayland
+  services.xserver = {
+    enable = true;
+    displayManager.gdm = {
+      enable = true;
+      wayland = true;
+    };
+    desktopManager.gnome.enable = true;
+  };
+
+  environment.gnome.excludePackages = [
+    pkgs.gnome.gnome-software
+    # Exclude other unwanted GNOME packages
+  ];
+
 
   # Configure ZSH as default shell
   environment.shells = with pkgs; [ bash zsh ];

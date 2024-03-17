@@ -6,6 +6,7 @@
   imports = [
     ../../user/shell/sh.nix
     ../../user/git.nix
+    ../../user/desk-env/gnome.nix
   ];
 
 
