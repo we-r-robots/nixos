@@ -13,7 +13,7 @@ in
       #inputs.sops-nix.nixosModules.sops
       ../../hardware-configuration.nix
       ../../system/sshd.nix
-      ../../system/xrdp.nix
+      #../../system/xrdp.nix
       #../../system/virt.nix # Enables virtualization and installs packages
       #../../system/steam.nix # Enables and installs Steam
     ];
@@ -39,11 +39,22 @@ in
     desktopManager.gnome.enable = true;
   };
 
-  environment.gnome.excludePackages = [
-    pkgs.gnome.gnome-software
-    # Exclude other unwanted GNOME packages
-  ];
-
+    # Enable gnome remote desktop
+  services.gnome.gnome-remote-desktop = {
+    enable = true;
+    #certificatesFile = "/path/to/certificates.pem";
+    #webSocketListenAddress = "0.0.0.0";
+    #webSocketListenPort = 16001;
+    #tcpListenAddress = "0.0.0.0";
+    #tcpListenPort = 3389;
+    #enableAACScreen = false;
+    #enableAACSound = false;
+    #enablePAUDIO = false;
+    #enableVNC = false;
+    #maxSessions = 4;
+    #screenShareMode = "extend";
+    #sessionIdleTimeout = 600;
+  };
 
   # Configure ZSH as default shell
   environment.shells = with pkgs; [ bash zsh ];
@@ -59,6 +70,10 @@ in
 
   # Enable networking
   networking.networkmanager.enable = true;
+
+  # Configure default firewall rules
+  networking.firewall.allowedTCPPorts = [ 3389 389 5900 ];
+
 
   # Set your time zone.
   time.timeZone = "America/New_York";
