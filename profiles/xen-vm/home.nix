@@ -1,4 +1,4 @@
-{ config, pkgs, userSettings, ... }:
+{ config, pkgs, pkgs-unstable, systemSettings, userSettings, ... }:
 
 {
   
@@ -9,6 +9,8 @@
     ../../user/desk-env/gnome.nix
   ];
 
+
+  nixpkgs.config.allowUnfree = true;
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -26,14 +28,17 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with pkgs [
-    epsonscan2
-    peazip
-    flameshot
-    floorp
-    obsidian
-    rustdesk
-  ];
+  home.packages = 
+    (with pkgs; [
+      epsonscan2
+      peazip
+      flameshot
+      floorp
+      rustdesk
+    ]) ++
+    (with pkgs-unstable; [
+      obsidian
+    ]);
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
