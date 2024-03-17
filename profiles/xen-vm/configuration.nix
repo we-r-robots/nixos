@@ -29,7 +29,7 @@ in
   boot.loader.grub.device = "/dev/xvda";
   boot.loader.grub.useOSProber = true;
 
-  # Enable XenServer guest utilities
+  # Virtualization detection and guest tools configuration
   services.xe-guest-utilities.enable = true;
 
   # Enable Wayland
@@ -40,23 +40,6 @@ in
       wayland = true;
     };
     desktopManager.gnome.enable = true;
-  };
-
-    # Enable gnome remote desktop
-  services.gnome.gnome-remote-desktop = {
-    enable = true;
-    #certificatesFile = "/path/to/certificates.pem";
-    #webSocketListenAddress = "0.0.0.0";
-    #webSocketListenPort = 16001;
-    #tcpListenAddress = "0.0.0.0";
-    #tcpListenPort = 3389;
-    #enableAACScreen = false;
-    #enableAACSound = false;
-    #enablePAUDIO = false;
-    #enableVNC = false;
-    #maxSessions = 4;
-    #screenShareMode = "extend";
-    #sessionIdleTimeout = 600;
   };
 
   # Configure ZSH as default shell
