@@ -18,7 +18,7 @@
       systemSettings = {
         system = "x86_64-linux";
         hostname = "nixos";
-        profile = "xen-vm";
+        profile = "laptop";
         timezone = "America/New_York";
       };
 
