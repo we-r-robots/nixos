@@ -13,7 +13,8 @@ in
       #inputs.sops-nix.nixosModules.sops
       ../../hardware-configuration.nix
       ../../system/sshd.nix
-      ../../system/xrdp.nix
+      ../../system/tailscale.nix
+      #../../system/xrdp.nix
       #../../system/virt.nix # Enables virtualization and installs packages
       #../../system/steam.nix # Enables and installs Steam
     ];
@@ -25,20 +26,25 @@ in
   };
 
   # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/xvda";
-  boot.loader.grub.useOSProber = true;
+  # boot.loader.grub.enable = true;
+  # boot.loader.grub.device = "/dev/xvda";
+  # boot.loader.grub.useOSProber = true;
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
-  # Virtualization detection and guest tools configuration
-  services.xe-guest-utilities.enable = true;
+  # Enable gnome Desktop with Wayland
+  #services.xserver = {
+  #  enable = true;
+  #  displayManager.gdm = {
+  #    enable = true;
+  #    wayland = true;
+  #  };
+  # desktopManager.gnome.enable = true;    
+  #};
 
-  # Enable Gnome Desktop Env w/ Wayland
+  # Enable Plasma Desktop Env w/ Wayland
   services.xserver = {
     enable = true;
-    # Enable gnome
-    #displayManager.gdm.enable = true;
-    #desktopManager.gnome.enable = true;
-    # Enable Plasma
     desktopManager.plasma6.enable = true;
     displayManager.sddm.wayland.enable = true;    
   };
@@ -120,9 +126,9 @@ in
     remmina
     vscode-with-extensions
     sops
-    xe-guest-utilities
     neofetch
-    gnome.gnome-tweaks
+    tailscale
+    tailscale-systray
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

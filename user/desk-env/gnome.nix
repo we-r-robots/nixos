@@ -40,13 +40,5 @@
     # Add more GTK settings
   };
 
-  # Wayland-related configurations
-  home.sessionVariables = {
-    QT_QPA_PLATFORM = "wayland";
-    NIXOS_OZONE_WL = "1";
-    MOZ_ENABLE_WAYLAND = "1";
-    NIXOS_USE_WESTON = "1";
-  };
-
   # Add more GNOME-related configurations
 }

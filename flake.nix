@@ -2,17 +2,17 @@
   description = "Bender's Basic Ass Flake";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-23.11";
-    home-manager.url = "github:nix-community/home-manager/release-23.11";
+    nixpkgs.url = "nixpkgs/nixos-unstable";
+    home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "nixpkgs/nixos-23.11";
     #sops-nix = {
     #  url = "github:Mic92/sops-nix";
     #  inputs.nixpkgs.follows = "nixpkgs";
     #};
   };
 
-  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, home-manager, ... }:
+  outputs = inputs@{ self, nixpkgs, nixpkgs-stable, home-manager, ... }:
     let
       ##### SYSTEM SETTINGS #####
       systemSettings = {
@@ -38,7 +38,7 @@
       };
 
       ##### PACKAGE MANAGER SETTINGS #####
-      pkgs-unstable = import nixpkgs-unstable {
+      pkgs-stable = import nixpkgs-stable {
         system = systemSettings.system;
         config = {
           allowUnfree = true;
@@ -69,7 +69,7 @@
             inherit systemSettings;
             inherit userSettings;
             inherit authorizedKeys;
-            inherit pkgs-unstable;
+            inherit pkgs-stable;
           };
         };
       };
@@ -85,7 +85,7 @@
             inherit systemSettings;
             inherit userSettings;
             inherit authorizedKeys;
-            inherit pkgs-unstable;
+            inherit pkgs-stable;
           };
         };
       };
