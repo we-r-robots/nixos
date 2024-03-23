@@ -34,6 +34,7 @@
       flameshot
       floorp
       obsidian
+      kitty
     ]) ++
     (with pkgs-stable; [
       peazip      

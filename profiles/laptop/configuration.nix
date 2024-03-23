@@ -11,7 +11,7 @@ in
   imports =
     [ # Include the results of the hardware scan.
       #inputs.sops-nix.nixosModules.sops
-      ../../hardware-configuration.nix
+      ./hardware-configuration.nix
       ../../system/sshd.nix
       ../../system/tailscale.nix
       #../../system/xrdp.nix
@@ -45,9 +45,9 @@ in
   # Enable Plasma Desktop Env w/ Wayland
   services.xserver = {
     enable = true;
-    desktopManager.plasma6.enable = true;
     displayManager.sddm.wayland.enable = true;    
   };
+  services.desktopManager.plasma6.enable = true;
 
   # Configure ZSH as default shell
   environment.shells = with pkgs; [ bash zsh ];
