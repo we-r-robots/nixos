@@ -10,5 +10,7 @@
     openFirewall = true;
     interfaceName = "tail0";
     useRoutingFeatures = "client";
+    #overrideLocalDns = "true";
+    extraUpFlags = ["--accept-routes=true"];
   };
 }

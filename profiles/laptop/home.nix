@@ -35,10 +35,10 @@
       floorp
       obsidian
       kitty
+      zoom-us
     ]) ++
     (with pkgs-stable; [
       peazip      
-      rustdesk
     ]);
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

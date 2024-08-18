@@ -54,6 +54,16 @@ in
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
 
+  # Configure Pulse Audio
+
+  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.support32Bit = true;
+  hardware.pulseaudio.extraConfig = "unload-module module-suspend-on-idle";
+
+  hardware.bluetooth.enable = true;
+
+  hardware.keyboard.zsa.enable = true;
+
   networking.hostName = systemSettings.hostname; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -129,6 +139,8 @@ in
     neofetch
     tailscale
     tailscale-systray
+    zsa-udev-rules
+    standardnotes
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
