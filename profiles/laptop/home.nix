@@ -1,4 +1,4 @@
-{ config, pkgs, pkgs-stable, systemSettings, userSettings, ... }:
+{ config, lib, pkgs, pkgs-stable, systemSettings, userSettings, ... }:
 
 {
   
@@ -36,6 +36,7 @@
       obsidian
       kitty
       zoom-us
+      spacedrive
     ]) ++
     (with pkgs-stable; [
       peazip      

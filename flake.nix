@@ -3,9 +3,11 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "nixpkgs/nixos-23.11";
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    nixpkgs-stable.url = "nixpkgs/nixos-23.11";
+    hyprland.url = "github:hyprwm/Hyprland";
+    
     #sops-nix = {
     #  url = "github:Mic92/sops-nix";
     #  inputs.nixpkgs.follows = "nixpkgs";
@@ -70,6 +72,7 @@
             inherit userSettings;
             inherit authorizedKeys;
             inherit pkgs-stable;
+            inherit inputs;
           };
         };
       };
@@ -86,6 +89,7 @@
             inherit userSettings;
             inherit authorizedKeys;
             inherit pkgs-stable;
+            inherit inputs;
           };
         };
       };

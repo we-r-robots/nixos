@@ -32,33 +32,64 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # Enable gnome Desktop with Wayland
-  #services.xserver = {
-  #  enable = true;
-  #  displayManager.gdm = {
-  #    enable = true;
-  #    wayland = true;
-  #  };
-  # desktopManager.gnome.enable = true;    
-  #};
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+  };
 
-  # Enable Plasma Desktop Env w/ Wayland
   services.xserver = {
     enable = true;
-    displayManager.sddm.wayland.enable = true;    
+    xkb.layout = "us";
+    xkb.variant = "";
   };
-  services.desktopManager.plasma6.enable = true;
+
+  # Enable GreetD with TuiGreet
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet -r -t --asterisks --asterisks-char 󰠥 --theme 'border=green;title=green;text=green;prompt=green;time=green;action=green;button=green;container=black;input=green' -g 'Assimilate the Population' --container-padding 4 -c Hyprland";
+        user = "greeter";
+      };
+    };
+  };
+
+
+  #  services.displayManager.sddm.wayland.enable = true;    
+  #  services.desktopManager.plasma6.enable = true;
+
+  # Enable Hyprland
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+    # set the flake package
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    # make sure to also set the portal package, so that they are in sync
+    portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+  };
+
+  xdg.portal.enable = true;
 
   # Configure ZSH as default shell
   environment.shells = with pkgs; [ bash zsh ];
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
 
+  
+  # Configure Pipewire
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+	    pulse.enable = true;
+    jack.enable = true;
+  };
+
   # Configure Pulse Audio
 
-  hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.support32Bit = true;
-  hardware.pulseaudio.extraConfig = "unload-module module-suspend-on-idle";
+  #  hardware.pulseaudio.enable = false;
+  #  hardware.pulseaudio.support32Bit = true;
+  #  hardware.pulseaudio.extraConfig = "unload-module module-suspend-on-idle";
 
   hardware.bluetooth.enable = true;
 
@@ -73,7 +104,8 @@ in
 
   # Enable networking
   networking.networkmanager.enable = true;
-
+  systemd.services.NetworkManager-wait-online.enable = false;
+  
   # Configure default firewall rules
   networking.firewall.allowedTCPPorts = [ 3389 389 5900 ];
 
@@ -94,12 +126,6 @@ in
     LC_PAPER = "en_US.UTF-8";
     LC_TELEPHONE = "en_US.UTF-8";
     LC_TIME = "en_US.UTF-8";
-  };
-
-  # Configure keymap in X11
-  services.xserver = {
-    layout = "us";
-    xkbVariant = "";
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -140,7 +166,34 @@ in
     tailscale
     tailscale-systray
     zsa-udev-rules
-    standardnotes
+    vlc
+    waybar
+    libnotify
+    xdg-desktop-portal-gtk
+    wofi
+    networkmanagerapplet
+    font-awesome
+    dolphin
+    nemo
+    hyprshot
+    hyprpaper
+    hypridle
+    hyprlock
+    hyprcursor
+    hyprutils
+    hyprlang
+    xdg-desktop-portal-hyprland
+    swaynotificationcenter
+    pavucontrol
+    
+  ];
+
+  # Font Packages
+  fonts.packages = with pkgs; [
+    font-awesome
+    powerline-fonts
+    powerline-symbols
+    (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" "FiraCode" "DroidSansMono" ]; })
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
