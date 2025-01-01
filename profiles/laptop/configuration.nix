@@ -74,6 +74,9 @@ in
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
 
+  # Enable USB drives
+  services.udisks2.enable = true;
+  services.gvfs.enable = true;
   
   # Configure Pipewire
   security.rtkit.enable = true;
@@ -185,7 +188,10 @@ in
     xdg-desktop-portal-hyprland
     swaynotificationcenter
     pavucontrol
-    
+    python3
+    python3Packages.pip
+    python3Packages.requests
+    python3Packages.beautifulsoup4
   ];
 
   # Font Packages
@@ -193,7 +199,9 @@ in
     font-awesome
     powerline-fonts
     powerline-symbols
-    (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" "FiraCode" "DroidSansMono" ]; })
+    nerd-fonts._0xproto
+    nerd-fonts.fira-code
+    nerd-fonts.droid-sans-mono
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
