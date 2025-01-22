@@ -1,0 +1,178 @@
+{ config, lib, pkgs, ... }:
+
+let
+  # Define shell aliases for use in both Bash and Zsh
+  myAliases = {
+    hfp = "home-flake-profile";
+    nr = "nix-rebuild";
+  };
+
+  # Define the functions for home-flake-profile and nix-rebuild
+  homeFlakeProfile = ''
+    function home-flake-profile {
+      local profile="$1"
+      home-manager switch --flake "/home/$USER/.dotfiles/profiles/"
+    }
+  '';
+
+  nixRebuild = ''
+    function nix-rebuild {
+      local profile="$1"
+      sudo nixos-rebuild switch --flake "/home/$USER/.dotfiles/"
+    }
+  '';
+
+in
+{
+  # Enable Bash and configure with aliases and functions
+  programs.bash = {
+    enable = true;
+    initExtra = ''
+      ${homeFlakeProfile}
+      ${nixRebuild}
+    '';
+    shellAliases = myAliases;
+  };
+
+  # Enable Zsh with aliases, autosuggestions, and syntax highlighting
+  programs.zsh = {
+    enable = true;
+    autosuggestion.enable = true;
+    enableCompletion = true;
+    syntaxHighlighting.enable = true;
+    initExtra = ''
+      ${homeFlakeProfile}
+      ${nixRebuild}
+    '';
+    shellAliases = myAliases;
+  };
+
+  # Starship configuration
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = true;
+    settings = {
+      # Custom symbols for various tools and languages
+      aws.symbol = "  ";
+      buf.symbol = " ";
+      c.symbol = " ";
+      cmake.symbol = " ";
+      conda.symbol = " ";
+      crystal.symbol = " ";
+      dart.symbol = " ";
+      directory.read_only = "󰌾";
+      docker_context.symbol = " ";
+      elixir.symbol = " ";
+      elm.symbol = " ";
+      fennel.symbol = " ";
+      fossil_branch.symbol = " ";
+      git_branch.symbol = " ";
+      git_commit.tag_symbol = " ";
+      golang.symbol = " ";
+      guix_shell.symbol = " ";
+      haskell.symbol = " ";
+      haxe.symbol = " ";
+      hg_branch.symbol = " ";
+      hostname.ssh_symbol = " ";
+      java.symbol = " ";
+      julia.symbol = " ";
+      kotlin.symbol = " ";
+      lua.symbol = " ";
+      memory_usage.symbol = "󰍛 ";
+      meson.symbol = "󰔷 ";
+      nim.symbol = "󰆥 ";
+      nix_shell.symbol = " ";
+      nodejs.symbol = " ";
+      ocaml.symbol = " ";
+      
+      # OS-specific symbols
+      Alpaquita.symbol = " ";
+      Alpine.symbol = " ";
+      Amazon.symbol = " ";
+      Android.symbol = " ";
+      Arch.symbol = " ";
+      Artix.symbol = " ";
+      CentOS.symbol = " ";
+      Debian.symbol = " ";
+      DragonFly.symbol = " ";
+      Emscripten.symbol = " ";
+      EndeavourOS.symbol = " ";
+      Fedora.symbol = " ";
+      FreeBSD.symbol = " ";
+      Garuda.symbol = "󰛓 ";
+      Gentoo.symbol = " ";
+      HardenedBSD.symbol = "󰞌 ";
+      Illumos.symbol = "󰈸 ";
+      Kali.symbol = " ";
+      Linux.symbol = " ";
+      Mabox.symbol = " ";
+      Macos.symbol = " ";
+      Manjaro.symbol = " ";
+      Mariner.symbol = " ";
+      MidnightBSD.symbol = " ";
+      Mint.symbol = " ";
+      NetBSD.symbol = " ";
+      NixOS.symbol = " ";
+      Nobara.symbol = " ";
+      OpenBSD.symbol = "󰈺 ";
+      openSUSE.symbol = " ";
+      OracleLinux.symbol = "󰌷 ";
+      Pop.symbol = " ";
+      Raspbian.symbol = " ";
+      Redhat.symbol = " ";
+      RedHatEnterprise.symbol = " ";
+      RockyLinux.symbol = " ";
+      Redox.symbol = "󰀘 ";
+      Solus.symbol = "󰠳 ";
+      SUSE.symbol = " ";
+      Ubuntu.symbol = " ";
+      Unknown.symbol = " ";
+      Void.symbol = " ";
+      Windows.symbol = "󰍲 ";
+
+      # Additional symbols
+      package.symbol = "󰏗 ";
+      perl.symbol = " ";
+      php.symbol = " ";
+      pijul_channel.symbol = " ";
+      python.symbol = " ";
+      rlang.symbol = "󰟔 ";
+      ruby.symbol = " ";
+      rust.symbol = "󱘗 ";
+      scala.symbol = " ";
+      swift.symbol = " ";
+      zig.symbol = " ";
+      gradle.symbol = " ";
+
+      # Palette for catppuccin_mocha
+      palettes.catppuccin_mocha = {
+        rosewater = "#f5e0dc";
+        flamingo = "#f2cdcd";
+        pink = "#f5c2e7";
+        mauve = "#cba6f7";
+        red = "#f38ba8";
+        maroon = "#eba0ac";
+        peach = "#fab387";
+        yellow = "#f9e2af";
+        green = "#a6e3a1";
+        teal = "#94e2d5";
+        sky = "#89dceb";
+        sapphire = "#74c7ec";
+        blue = "#89b4fa";
+        lavender = "#b4befe";
+        text = "#cdd6f4";
+        subtext1 = "#bac2de";
+        subtext0 = "#a6adc8";
+        overlay2 = "#9399b2";
+        overlay1 = "#7f849c";
+        overlay0 = "#6c7086";
+        surface2 = "#585b70";
+        surface1 = "#45475a";
+        surface0 = "#313244";
+        base = "#1e1e2e";
+        mantle = "#181825";
+        crust = "#11111b";
+      };
+    };
+  };
+}

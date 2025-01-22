@@ -192,6 +192,8 @@ in
     python3Packages.pip
     python3Packages.requests
     python3Packages.beautifulsoup4
+    atac
+    tree
   ];
 
   # Font Packages
