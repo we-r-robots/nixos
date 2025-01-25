@@ -164,7 +164,6 @@ in
     firefox
     remmina
     vscode-with-extensions
-    sops
     neofetch
     tailscale
     tailscale-systray
